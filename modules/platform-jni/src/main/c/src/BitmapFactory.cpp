@@ -2,13 +2,16 @@
 #include "net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_native_access.hpp"
 #include "net_janrupf_ujr_platform_jni_impl_JNIUlBitmapFactory.h"
 
+#ifndef UJR_ONLY_WEBCORE
 #include <Ultralight/Bitmap.h>
+#endif
 
 #include <stdexcept>
 
 #include "ujr/Bitmap.hpp"
 #include "ujr/util/JniEntryGuard.hpp"
 
+#ifndef UJR_ONLY_WEBCORE
 namespace {
     ultralight::BitmapFormat java_format_to_native(const ujr::JniLocalRef<jobject> &j_format) {
         using ujr::native_access::UlBitmapFormat;
@@ -22,18 +25,24 @@ namespace {
         }
     }
 } // namespace
+#endif
 
 JNIEXPORT jobject JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmapFactory_nativeCreate0(JNIEnv *env, jobject) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         auto bitmap = ujr::Bitmap::wrap(env, ultralight::Bitmap::Create());
         return bitmap.leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT jobject JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmapFactory_nativeCreate1(
     JNIEnv *env, jobject, jlong width, jlong height, jobject format
 ) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         auto j_format = env.wrap_argument(format);
         auto ul_bitmap = ultralight::Bitmap::Create(
@@ -45,11 +54,15 @@ JNIEXPORT jobject JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmapFact
         auto bitmap = ujr::Bitmap::wrap(env, ul_bitmap);
         return bitmap.leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT jobject JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmapFactory_nativeCreate2(
     JNIEnv *env, jobject, jlong width, jlong height, jobject format, jlong alignment
 ) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         auto j_format = env.wrap_argument(format);
         auto ul_bitmap = ultralight::Bitmap::Create(
@@ -62,10 +75,14 @@ JNIEXPORT jobject JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmapFact
         auto bitmap = ujr::Bitmap::wrap(env, ul_bitmap);
         return bitmap.leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT jobject JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmapFactory_nativeCreate3(JNIEnv *env, jobject, jobject other) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlBitmap;
 
@@ -76,4 +93,7 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmapFactory_nativeCreate3(JNIEnv *
         auto bitmap = ujr::Bitmap::wrap(env, ul_bitmap);
         return bitmap.leak();
     });
+#else
+    return nullptr;
+#endif
 }

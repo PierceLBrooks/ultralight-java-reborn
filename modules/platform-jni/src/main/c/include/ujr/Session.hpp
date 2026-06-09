@@ -18,6 +18,6 @@ namespace ujr {
 
         explicit SessionCollector(ultralight::Session *session);
 
-        void collect() final;
+        void collect();
     };
 } // namespace ujr

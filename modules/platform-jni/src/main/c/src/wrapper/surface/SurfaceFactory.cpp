@@ -7,6 +7,7 @@ namespace ujr {
     SurfaceFactory::SurfaceFactory(JniGlobalRef<jobject> j_surface_factory)
         : j_surface_factory(std::move(j_surface_factory)) {}
 
+#ifndef UJR_ONLY_WEBCORE
     ultralight::Surface *SurfaceFactory::CreateSurface(uint32_t width, uint32_t height) {
         auto env = JniEnv::require_existing_from_thread();
 
@@ -27,6 +28,11 @@ namespace ujr {
 
         delete surface;
     }
+#else
+    int *SurfaceFactory::CreateSurface(uint32_t width, uint32_t height) { return nullptr; }
+
+    void SurfaceFactory::DestroySurface(int *surface) {}
+#endif
 
     const JniGlobalRef<jobject> &SurfaceFactory::get_j_surface_factory() const { return j_surface_factory; }
 } // namespace ujr

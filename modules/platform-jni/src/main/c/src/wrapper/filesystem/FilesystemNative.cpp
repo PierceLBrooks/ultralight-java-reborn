@@ -11,6 +11,7 @@
 JNIEXPORT jboolean JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_filesystem_JNIUlFilesystemNative_nativeFileExists(
     JNIEnv *env, jobject self, jstring path
 ) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlFilesystemNative;
 
@@ -19,12 +20,16 @@ JNIEXPORT jboolean JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_filesystem_
         auto *filesystem = reinterpret_cast<ultralight::FileSystem *>(JNIUlFilesystemNative::HANDLE.get(env, self));
         return filesystem->FileExists(j_path.to_utf16());
     });
+#else
+    return JNI_FALSE;
+#endif
 }
 
 JNIEXPORT jstring JNICALL
 Java_net_janrupf_ujr_platform_jni_wrapper_filesystem_JNIUlFilesystemNative_nativeGetFileMimeType(
     JNIEnv *env, jobject self, jstring path
 ) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlFilesystemNative;
 
@@ -36,12 +41,16 @@ Java_net_janrupf_ujr_platform_jni_wrapper_filesystem_JNIUlFilesystemNative_nativ
 
         return ujr::JniLocalRef<jstring>::from_utf16(env, mime_type.utf16()).leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT jstring JNICALL
 Java_net_janrupf_ujr_platform_jni_wrapper_filesystem_JNIUlFilesystemNative_nativeGetFileCharset(
     JNIEnv *env, jobject self, jstring path
 ) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlFilesystemNative;
 
@@ -53,11 +62,15 @@ Java_net_janrupf_ujr_platform_jni_wrapper_filesystem_JNIUlFilesystemNative_nativ
 
         return ujr::JniLocalRef<jstring>::from_utf16(env, charset.utf16()).leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT jobject JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_filesystem_JNIUlFilesystemNative_nativeOpenFile(
     JNIEnv *env, jobject self, jstring path
 ) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlFilesystemNative;
 
@@ -69,4 +82,7 @@ JNIEXPORT jobject JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_filesystem_J
 
         return ujr::BufferNative::as_java_buffer(env, file).leak();
     });
+#else
+    return nullptr;
+#endif
 }

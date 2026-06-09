@@ -19,6 +19,6 @@ namespace ujr {
     public:
         explicit JSContextGroupCollector(JSContextGroupRef group);
 
-        void collect() final;
+        void collect();
     };
 }

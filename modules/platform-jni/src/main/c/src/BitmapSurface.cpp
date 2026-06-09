@@ -8,6 +8,7 @@
 
 JNIEXPORT jobject JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmapSurface_nativeBitmap(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlSurfaceNative;
 
@@ -16,4 +17,7 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmapSurface_nativeBitmap(JNIEnv *e
 
         return bitmap.leak();
     });
+#else
+    return nullptr;
+#endif
 }

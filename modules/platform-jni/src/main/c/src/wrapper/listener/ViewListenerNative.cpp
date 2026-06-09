@@ -6,8 +6,10 @@
 #include "net_janrupf_ujr_platform_jni_wrapper_listener_JNIUlViewListenerNative.h"
 #include "net_janrupf_ujr_platform_jni_wrapper_listener_JNIUlViewListenerNative_native_access.hpp"
 
+#ifndef UJR_ONLY_WEBCORE
 #include <Ultralight/Listener.h>
 #include <Ultralight/View.h>
+#endif
 
 #include <stdexcept>
 
@@ -17,6 +19,7 @@
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_listener_JNIUlViewListenerNative_nativeOnChangeTitle(
     JNIEnv *env, jobject self, jobject view, jstring title
 ) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlViewListenerNative;
         using ujr::native_access::JNIUlView;
@@ -28,11 +31,13 @@ JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_listener_JNIUlV
 
         listener->OnChangeTitle(ul_view, j_title.to_utf16());
     });
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_listener_JNIUlViewListenerNative_nativeOnChangeURL(
     JNIEnv *env, jobject self, jobject view, jstring url
 ) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlViewListenerNative;
         using ujr::native_access::JNIUlView;
@@ -44,11 +49,13 @@ JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_listener_JNIUlV
 
         listener->OnChangeURL(ul_view, j_url.to_utf16());
     });
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_listener_JNIUlViewListenerNative_nativeOnChangeTooltip(
     JNIEnv *env, jobject self, jobject view, jstring tooltip
 ) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlViewListenerNative;
         using ujr::native_access::JNIUlView;
@@ -60,11 +67,13 @@ JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_listener_JNIUlV
 
         listener->OnChangeTooltip(ul_view, j_tooltip.to_utf16());
     });
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_listener_JNIUlViewListenerNative_nativeOnChangeCursor(
     JNIEnv *env, jobject self, jobject view, jobject cursor
 ) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlViewListenerNative;
         using ujr::native_access::UlCursor;
@@ -171,6 +180,7 @@ JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_listener_JNIUlV
 
         listener->OnChangeCursor(ul_view, ul_cursor);
     });
+#endif
 }
 
 JNIEXPORT void JNICALL
@@ -185,6 +195,7 @@ Java_net_janrupf_ujr_platform_jni_wrapper_listener_JNIUlViewListenerNative_nativ
     jlong column_number,
     jstring source_id
 ) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlViewListenerNative;
         using ujr::native_access::UlMessageSource;
@@ -251,6 +262,7 @@ Java_net_janrupf_ujr_platform_jni_wrapper_listener_JNIUlViewListenerNative_nativ
             j_source_id.to_utf16()
         );
     });
+#endif
 }
 
 JNIEXPORT jobject JNICALL
@@ -263,6 +275,7 @@ Java_net_janrupf_ujr_platform_jni_wrapper_listener_JNIUlViewListenerNative_nativ
     jboolean is_popup,
     jobject popup_rect
 ) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) -> jobject {
         using ujr::native_access::JNIUlViewListenerNative;
         using ujr::native_access::IntRect;
@@ -290,12 +303,16 @@ Java_net_janrupf_ujr_platform_jni_wrapper_listener_JNIUlViewListenerNative_nativ
         auto j_view = ujr::View::wrap(env, ultralight::RefPtr(ul_view));
         return j_view.leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT jobject JNICALL
 Java_net_janrupf_ujr_platform_jni_wrapper_listener_JNIUlViewListenerNative_nativeOnCreateInspectorView(
     JNIEnv *env, jobject self, jobject view, jboolean is_local, jstring inspected_url
 ) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) -> jobject {
         using ujr::native_access::JNIUlViewListenerNative;
         using ujr::native_access::JNIUlView;
@@ -314,11 +331,15 @@ Java_net_janrupf_ujr_platform_jni_wrapper_listener_JNIUlViewListenerNative_nativ
         auto j_view = ujr::View::wrap(env, inspector_view);
         return j_view.leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_listener_JNIUlViewListenerNative_nativeOnRequestClose(
     JNIEnv *env, jobject self, jobject view
 ) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlViewListenerNative;
         using ujr::native_access::JNIUlView;
@@ -328,4 +349,5 @@ JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_listener_JNIUlV
 
         listener->OnRequestClose(ul_view);
     });
+#endif
 }

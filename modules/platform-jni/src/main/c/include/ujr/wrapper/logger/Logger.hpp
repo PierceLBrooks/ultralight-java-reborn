@@ -15,7 +15,7 @@ namespace ujr {
     public:
         explicit Logger(JniGlobalRef<jobject> j_logger);
 
-        void LogMessage(ultralight::LogLevel log_level, const ultralight::String &message) final;
+        void LogMessage(ultralight::LogLevel log_level, const ultralight::String &message);
 
         /**
          * Retrieves the underlying java logger instance.

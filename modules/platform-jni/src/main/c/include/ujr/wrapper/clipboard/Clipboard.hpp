@@ -1,6 +1,10 @@
 #pragma once
 
+#ifndef UJR_ONLY_WEBCORE
 #include <Ultralight/platform/Clipboard.h>
+#else
+#include <Ultralight/String.h>
+#endif
 
 #include "ujr/util/JniRef.hpp"
 
@@ -8,18 +12,22 @@ namespace ujr {
     /**
      * Clipboard adapter for Ultralight delegating to a Java instance.
      */
+#ifndef UJR_ONLY_WEBCORE
     class Clipboard : public ultralight::Clipboard {
+#else
+    class Clipboard {
+#endif
     private:
         JniGlobalRef<jobject> j_clipboard;
 
     public:
         explicit Clipboard(JniGlobalRef<jobject> j_clipboard);
 
-        void Clear() final;
+        void Clear();
 
-        ultralight::String ReadPlainText() final;
+        ultralight::String ReadPlainText();
 
-        void WritePlainText(const ultralight::String &text) final;
+        void WritePlainText(const ultralight::String &text);
 
         /**
          * Retrieves the underlying java clipboard instance.

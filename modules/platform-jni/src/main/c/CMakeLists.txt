@@ -14,8 +14,6 @@ if(NOT DEFINED UJR_JNI_HEADER_DIR)
     message(SEND_ERROR "Missing UJR_JNI_HEADER_DIR, please set it to the path of the JNI header files")
 endif()
 
-option(UJR_WARNINGS_AS_ERRORS "Treat warnings as errors" ON)
-
 ###########################
 # Add 3rd party libraries #
 ###########################
@@ -27,7 +25,7 @@ if(NOT JNI_FOUND)
     message(SEND_ERROR "JNI could not be found")
 endif()
 
-if(UJR_WARNINGS_AS_ERRORS)
+if(DEFINED UJR_WARNINGS_AS_ERRORS AND "${UJR_WARNINGS_AS_ERRORS}" STREQUAL "ON")
     if(MSVC)
         add_compile_options(
                 /W4
@@ -134,6 +132,9 @@ set(UJR_SOURCES
 add_library(ultralight-java-reborn SHARED ${UJR_SOURCES})
 target_include_directories(ultralight-java-reborn PRIVATE ${UJR_JNI_HEADER_DIR} ${CMAKE_CURRENT_LIST_DIR}/include)
 target_link_libraries(ultralight-java-reborn PRIVATE ultralight JNI::JNI)
+if(DEFINED UJR_ONLY_WEBCORE AND "${UJR_ONLY_WEBCORE}" STREQUAL "ON")
+    target_compile_definitions(ultralight-java-reborn PRIVATE -DUJR_ONLY_WEBCORE)
+endif()
 
 ############################
 # Add install instructions #

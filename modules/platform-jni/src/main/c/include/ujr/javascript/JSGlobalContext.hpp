@@ -19,7 +19,7 @@ namespace ujr {
     public:
         explicit JSGlobalContextCollector(JSGlobalContextRef context);
 
-        void collect() final;
+        void collect();
     };
 }
 

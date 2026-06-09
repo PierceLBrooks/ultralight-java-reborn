@@ -6,7 +6,9 @@
 #include "net_janrupf_ujr_platform_jni_impl_JNIUlView_native_access.hpp"
 #include "net_janrupf_ujr_platform_jni_wrapper_listener_JNIUlViewListener_native_access.hpp"
 
+#ifndef UJR_ONLY_WEBCORE
 #include <Ultralight/View.h>
+#endif
 
 #include "ujr/View.hpp"
 
@@ -14,6 +16,7 @@ namespace ujr {
     ViewListener::ViewListener(JniGlobalRef<jobject> j_listener)
         : j_listener(std::move(j_listener)) {}
 
+#ifndef UJR_ONLY_WEBCORE
     void ViewListener::OnChangeTitle(ultralight::View *caller, const ultralight::String &title) {
         auto env = JniEnv::require_existing_from_thread();
 
@@ -377,6 +380,7 @@ namespace ujr {
         // Call the Java instance
         JNIUlViewListener::ON_REQUEST_CLOSE.invoke(env, j_listener, j_view);
     }
+#endif
 
     const JniGlobalRef<jobject> &ViewListener::get_j_listener() const { return j_listener; }
 } // namespace ujr

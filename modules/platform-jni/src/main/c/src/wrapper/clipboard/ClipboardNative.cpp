@@ -9,28 +9,35 @@
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_wrapper_clipboard_JNIUlClipboardNative_nativeClear(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlClipboardNative;
 
         auto *clipboard = reinterpret_cast<ultralight::Clipboard *>(JNIUlClipboardNative::HANDLE.get(env, self));
         clipboard->Clear();
     });
+#endif
 }
 
 JNIEXPORT jstring JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_clipboard_JNIUlClipboardNative_nativeReadPlainText(
     JNIEnv *env, jobject self
 ) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlClipboardNative;
 
         auto *clipboard = reinterpret_cast<ultralight::Clipboard *>(JNIUlClipboardNative::HANDLE.get(env, self));
         return ujr::JniLocalRef<jstring>::from_utf16(env, clipboard->ReadPlainText().utf16()).leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_clipboard_JNIUlClipboardNative_nativeWritePlainText(
     JNIEnv *env, jobject self, jstring text
 ) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlClipboardNative;
 
@@ -39,4 +46,5 @@ JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_clipboard_JNIUl
         auto *clipboard = reinterpret_cast<ultralight::Clipboard *>(JNIUlClipboardNative::HANDLE.get(env, self));
         clipboard->WritePlainText(j_text.to_utf16());
     });
+#endif
 }

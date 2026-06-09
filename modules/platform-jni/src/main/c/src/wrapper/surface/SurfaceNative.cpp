@@ -2,53 +2,72 @@
 #include "net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurfaceNative.h"
 #include "net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurfaceNative_native_access.hpp"
 
+#ifndef UJR_ONLY_WEBCORE
 #include <Ultralight/platform/Surface.h>
+#endif
 
 #include "ujr/util/JniEntryGuard.hpp"
 #include "ujr/util/JniRef.hpp"
 
 JNIEXPORT jlong JNICALL
 Java_net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurfaceNative_nativeWidth(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlSurfaceNative;
 
         auto *ul_surface = reinterpret_cast<ultralight::Surface *>(JNIUlSurfaceNative::HANDLE.get(env, self));
         return static_cast<jlong>(ul_surface->width());
     });
+#else
+    return 0;
+#endif
 }
 
 JNIEXPORT jlong JNICALL
 Java_net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurfaceNative_nativeHeight(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlSurfaceNative;
 
         auto *ul_surface = reinterpret_cast<ultralight::Surface *>(JNIUlSurfaceNative::HANDLE.get(env, self));
         return static_cast<jlong>(ul_surface->height());
     });
+#else
+    return 0;
+#endif
 }
 
 JNIEXPORT jlong JNICALL
 Java_net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurfaceNative_nativeRowBytes(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlSurfaceNative;
 
         auto *ul_surface = reinterpret_cast<ultralight::Surface *>(JNIUlSurfaceNative::HANDLE.get(env, self));
         return static_cast<jlong>(ul_surface->row_bytes());
     });
+#else
+    return 0;
+#endif
 }
 
 JNIEXPORT jlong JNICALL
 Java_net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurfaceNative_nativeSize(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlSurfaceNative;
 
         auto *ul_surface = reinterpret_cast<ultralight::Surface *>(JNIUlSurfaceNative::HANDLE.get(env, self));
         return static_cast<jlong>(ul_surface->size());
     });
+#else
+    return 0;
+#endif
 }
 
 JNIEXPORT jobject JNICALL
 Java_net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurfaceNative_nativeLockPixels(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlSurfaceNative;
 
@@ -78,11 +97,15 @@ Java_net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurfaceNative_nativeLockP
 
         return static_cast<jobject>(indirect_array.leak());
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurfaceNative_nativeUnlockPixels(
     JNIEnv *env, jobject self, jbyteArray storage
 ) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlSurfaceNative;
 
@@ -98,22 +121,26 @@ JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSu
         auto *ul_surface = reinterpret_cast<ultralight::Surface *>(JNIUlSurfaceNative::HANDLE.get(env, self));
         ul_surface->UnlockPixels();
     });
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurfaceNative_nativeResize(
     JNIEnv *env, jobject self, jlong width, jlong height
 ) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlSurfaceNative;
 
         auto *ul_surface = reinterpret_cast<ultralight::Surface *>(JNIUlSurfaceNative::HANDLE.get(env, self));
         ul_surface->Resize(static_cast<uint32_t>(width), static_cast<uint32_t>(height));
     });
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurfaceNative_nativeSetDirtyBounds(
     JNIEnv *env, jobject self, jobject dirty_bounds
 ) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlSurfaceNative;
         using ujr::native_access::IntRect;
@@ -128,10 +155,12 @@ JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSu
 
         ul_surface->set_dirty_bounds(ul_dirty_bounds);
     });
+#endif
 }
 
 JNIEXPORT jobject JNICALL
 Java_net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurfaceNative_nativeDirtyBounds(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlSurfaceNative;
         using ujr::native_access::IntRect;
@@ -147,14 +176,19 @@ Java_net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurfaceNative_nativeDirty
 
         return j_dirty_bounds.leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurfaceNative_nativeClearDirtyBounds(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlSurfaceNative;
 
         auto *ul_surface = reinterpret_cast<ultralight::Surface *>(JNIUlSurfaceNative::HANDLE.get(env, self));
         ul_surface->ClearDirtyBounds();
     });
+#endif
 }

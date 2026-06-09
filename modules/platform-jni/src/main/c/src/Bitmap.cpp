@@ -11,24 +11,33 @@
 #include "ujr/util/JniEntryGuard.hpp"
 
 JNIEXPORT jlong JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nativeWidth(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlBitmap;
 
         auto *bitmap = reinterpret_cast<ultralight::Bitmap *>(JNIUlBitmap::HANDLE.get(env, self));
         return bitmap->width();
     });
+#else
+    return 0;
+#endif
 }
 
 JNIEXPORT jlong JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nativeHeight(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlBitmap;
 
         auto *bitmap = reinterpret_cast<ultralight::Bitmap *>(JNIUlBitmap::HANDLE.get(env, self));
         return bitmap->height();
     });
+#else
+    return 0;
+#endif
 }
 
 JNIEXPORT jobject JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nativeBounds(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlBitmap;
         using ujr::native_access::IntRect;
@@ -44,9 +53,13 @@ JNIEXPORT jobject JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nat
 
         return j_bounds.leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT jobject JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nativeFormat(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) -> jobject {
         using ujr::native_access::JNIUlBitmap;
         using ujr::native_access::UlBitmapFormat;
@@ -63,47 +76,67 @@ JNIEXPORT jobject JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nat
                 throw std::runtime_error("Unknown bitmap format");
         }
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT jlong JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nativeBpp(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlBitmap;
 
         auto *bitmap = reinterpret_cast<ultralight::Bitmap *>(JNIUlBitmap::HANDLE.get(env, self));
         return bitmap->bpp();
     });
+#else
+    return 0;
+#endif
 }
 
 JNIEXPORT jlong JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nativeRowBytes(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlBitmap;
 
         auto *bitmap = reinterpret_cast<ultralight::Bitmap *>(JNIUlBitmap::HANDLE.get(env, self));
         return bitmap->row_bytes();
     });
+#else
+    return 0;
+#endif
 }
 
 JNIEXPORT jlong JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nativeSize(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlBitmap;
 
         auto *bitmap = reinterpret_cast<ultralight::Bitmap *>(JNIUlBitmap::HANDLE.get(env, self));
         return bitmap->size();
     });
+#else
+    return 0;
+#endif
 }
 
 JNIEXPORT jboolean JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nativeOwnsPixels(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlBitmap;
 
         auto *bitmap = reinterpret_cast<ultralight::Bitmap *>(JNIUlBitmap::HANDLE.get(env, self));
         return bitmap->owns_pixels();
     });
+#else
+    return JNI_FALSE;
+#endif
 }
 
 JNIEXPORT jobject JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nativeLockPixels(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlBitmap;
 
@@ -133,28 +166,38 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nativeLockPixels(JNIEnv *env,
 
         return static_cast<jobject>(indirect_array.leak());
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT jboolean JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nativeIsEmpty(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlBitmap;
 
         auto *bitmap = reinterpret_cast<ultralight::Bitmap *>(JNIUlBitmap::HANDLE.get(env, self));
         return bitmap->IsEmpty();
     });
+#else
+    return JNI_FALSE;
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nativeErase(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlBitmap;
 
         auto *bitmap = reinterpret_cast<ultralight::Bitmap *>(JNIUlBitmap::HANDLE.get(env, self));
         bitmap->Erase();
     });
+#endif
 }
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nativeSet(JNIEnv *env, jobject self, jobject other) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlBitmap;
         using ujr::native_access::JNIUlBitmap;
@@ -165,11 +208,13 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nativeSet(JNIEnv *env, jobjec
         ultralight::RefPtr<ultralight::Bitmap> other_bitmap_ref(other_bitmap);
         bitmap->Set(other_bitmap_ref);
     });
+#endif
 }
 
 JNIEXPORT jboolean JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nativeDrawBitmap(
     JNIEnv *env, jobject self, jobject src_rect, jobject dest_rect, jobject bitmap, jboolean pad_repeat
 ) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlBitmap;
         using ujr::native_access::IntRect;
@@ -191,11 +236,15 @@ JNIEXPORT jboolean JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_na
 
         return self_bitmap->DrawBitmap(ul_src_rect, ul_dest_rect, other_bitmap, pad_repeat);
     });
+#else
+    return JNI_FALSE;
+#endif
 }
 
 JNIEXPORT jboolean JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nativeWritePNG(
     JNIEnv *env, jobject self, jstring path, jboolean convert_to_rgba, jboolean convert_to_straight_alpha
 ) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlBitmap;
 
@@ -205,11 +254,15 @@ JNIEXPORT jboolean JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_na
         auto path8 = j_path.to_utf8();
         return bitmap->WritePNG(path8.c_str(), convert_to_rgba, convert_to_straight_alpha);
     });
+#else
+    return JNI_FALSE;
+#endif
 }
 
 JNIEXPORT jboolean JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nativeResample(
     JNIEnv *env, jobject self, jobject destination, jboolean high_quality
 ) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlBitmap;
         using ujr::native_access::JNIUlBitmap;
@@ -220,39 +273,49 @@ JNIEXPORT jboolean JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_na
         ultralight::RefPtr<ultralight::Bitmap> other_bitmap_ref(other_bitmap);
         return bitmap->Resample(other_bitmap_ref, high_quality);
     });
+#else
+    return JNI_FALSE;
+#endif
 }
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nativeSwapRedBlueChannels(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlBitmap;
 
         auto *bitmap = reinterpret_cast<ultralight::Bitmap *>(JNIUlBitmap::HANDLE.get(env, self));
         bitmap->SwapRedBlueChannels();
     });
+#endif
 }
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nativeConvertToStraightAlpha(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlBitmap;
 
         auto *bitmap = reinterpret_cast<ultralight::Bitmap *>(JNIUlBitmap::HANDLE.get(env, self));
         bitmap->ConvertToStraightAlpha();
     });
+#endif
 }
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlBitmap_nativeConvertToPremultipliedAlpha(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlBitmap;
 
         auto *bitmap = reinterpret_cast<ultralight::Bitmap *>(JNIUlBitmap::HANDLE.get(env, self));
         bitmap->ConvertToPremultipliedAlpha();
     });
+#endif
 }
 
 namespace ujr {
+#ifndef UJR_ONLY_WEBCORE
     JniLocalRef<jobject> Bitmap::wrap(const JniEnv &env, ultralight::RefPtr<ultralight::Bitmap> bitmap) {
         using ujr::native_access::JNIUlBitmap;
 
@@ -268,5 +331,23 @@ namespace ujr {
     BitmapCollector::BitmapCollector(ultralight::Bitmap *bitmap)
         : bitmap(bitmap) {}
 
-    void BitmapCollector::collect() { bitmap->Release(); } // namespace ujr
+    void BitmapCollector::collect() { bitmap->Release(); }
+#else
+    JniLocalRef<jobject> Bitmap::wrap(const JniEnv &env, ultralight::RefPtr<int> bitmap) {
+        using ujr::native_access::JNIUlBitmap;
+
+        auto *bitmap_ref = bitmap.LeakRef();
+
+        auto j_bitmap = JNIUlBitmap::CLAZZ.alloc_object(env);
+        JNIUlBitmap::HANDLE.set(env, j_bitmap, reinterpret_cast<jlong>(bitmap_ref));
+        ujr::GCSupport::attach_collector(env, j_bitmap, new ujr::BitmapCollector(bitmap_ref));
+
+        return j_bitmap;
+    }
+
+    BitmapCollector::BitmapCollector(int *bitmap)
+        : bitmap(bitmap) {}
+
+    void BitmapCollector::collect() {}
+#endif
 } // namespace ujr

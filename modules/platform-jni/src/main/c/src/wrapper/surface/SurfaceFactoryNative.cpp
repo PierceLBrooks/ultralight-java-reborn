@@ -3,7 +3,9 @@
 #include "net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurfaceFactoryNative_native_access.hpp"
 #include "net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurfaceNative_native_access.hpp"
 
+#ifndef UJR_ONLY_WEBCORE
 #include <Ultralight/platform/Surface.h>
+#endif
 
 #include "ujr/util/JniEntryGuard.hpp"
 
@@ -11,6 +13,7 @@ JNIEXPORT jobject JNICALL
 Java_net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurfaceFactoryNative_nativeCreateSurface(
     JNIEnv *env, jobject self, jlong width, jlong height
 ) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlSurfaceFactoryNative;
         using ujr::native_access::JNIUlBitmapSurface;
@@ -33,11 +36,15 @@ Java_net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurfaceFactoryNative_nati
 
         return j_ul_surface.leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurfaceFactoryNative_nativeDestroySurface(
     JNIEnv *env, jobject self, jobject surface
 ) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlSurfaceFactoryNative;
         using ujr::native_access::JNIUlSurfaceNative;
@@ -50,4 +57,5 @@ JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSu
             = reinterpret_cast<ultralight::SurfaceFactory *>(JNIUlSurfaceFactoryNative::HANDLE.get(env, self));
         surface_factory->DestroySurface(ul_surface);
     });
+#endif
 }

@@ -22,6 +22,6 @@ namespace ujr {
     public:
         explicit JSValueCollector(JSGlobalContextRef context, JSValueRef value);
 
-        void collect() final;
+        void collect();
     };
 } // namespace ujr

@@ -87,12 +87,14 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlPlatform_nativeSetConfig(JNIEnv *env
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlPlatform_nativeUsePlatformFontLoader(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlPlatform;
 
         auto *platform = reinterpret_cast<ultralight::Platform *>(JNIUlPlatform::HANDLE.get(env, self));
         platform->set_font_loader(ultralight::GetPlatformFontLoader());
     });
+#endif
 }
 
 JNIEXPORT void JNICALL
@@ -109,6 +111,7 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlPlatform_nativeSetLogger(JNIEnv *env
         auto j_logger = env.wrap_argument(logger);
         auto *platform = reinterpret_cast<ultralight::Platform *>(JNIUlPlatform::HANDLE.get(env, self));
 
+#ifndef UJR_ONLY_WEBCORE
         ultralight::Logger *new_native_logger = nullptr;
 
         if (j_logger.is_valid()) {
@@ -118,11 +121,13 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlPlatform_nativeSetLogger(JNIEnv *env
         // Set the native logger field
         platform->set_logger(new_native_logger);
         collector->logger = new_native_logger;
+#endif
     });
 }
 
 JNIEXPORT jobject JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlPlatform_nativeGetLogger(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) -> jobject {
         using ujr::native_access::JNIUlPlatform;
         using ujr::native_access::JNIUlLoggerNative;
@@ -146,11 +151,15 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlPlatform_nativeGetLogger(JNIEnv *env
 
         return jni_logger_ref.leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlPlatform_nativeSetFilesystem(
     JNIEnv *env, jobject self, jobject filesystem
 ) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlPlatform;
 
@@ -172,10 +181,12 @@ JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlPlatform_nati
         platform->set_file_system(new_native_filesystem);
         collector->filesystem = new_native_filesystem;
     });
+#endif
 }
 
 JNIEXPORT jobject JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlPlatform_nativeGetFilesystem(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) -> jobject {
         using ujr::native_access::JNIUlPlatform;
         using ujr::native_access::JNIUlFilesystemNative;
@@ -199,10 +210,14 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlPlatform_nativeGetFilesystem(JNIEnv 
 
         return jni_filesystem_ref.leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlPlatform_nativeSetClipboard(JNIEnv *env, jobject self, jobject clipboard) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlPlatform;
 
@@ -224,10 +239,12 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlPlatform_nativeSetClipboard(JNIEnv *
         platform->set_clipboard(new_native_clipboard);
         collector->clipboard = new_native_clipboard;
     });
+#endif
 }
 
 JNIEXPORT jobject JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlPlatform_nativeGetClipboard(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) -> jobject {
         using ujr::native_access::JNIUlPlatform;
         using ujr::native_access::JNIUlClipboardNative;
@@ -252,11 +269,15 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlPlatform_nativeGetClipboard(JNIEnv *
 
         return jni_clipboard_ref.leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlPlatform_nativeSetSurfaceFactory(
     JNIEnv *env, jobject self, jobject surface_factory
 ) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlPlatform;
 
@@ -278,10 +299,12 @@ JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlPlatform_nati
         platform->set_surface_factory(new_native_surface_factory);
         collector->surface_factory = new_native_surface_factory;
     });
+#endif
 }
 
 JNIEXPORT jobject JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlPlatform_nativeSurfaceFactory(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) -> jobject {
         using ujr::native_access::JNIUlPlatform;
         using ujr::native_access::JNIUlSurfaceFactoryNative;
@@ -307,16 +330,23 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlPlatform_nativeSurfaceFactory(JNIEnv
 
         return jni_surface_factory_ref.leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT jobject JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlPlatform_nativeCreateRenderer(JNIEnv *env, jobject) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) -> jobject {
         auto ul_renderer = ultralight::Renderer::Create();
         auto renderer = ujr::Renderer::wrap(env, ul_renderer);
 
         return renderer.leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 namespace ujr {
@@ -333,6 +363,7 @@ namespace ujr {
         delete surface_factory;
     }
 
+#ifndef UJR_ONLY_WEBCORE
     JniLocalRef<jobject> Platform::wrap(const JniEnv &env, ultralight::Platform &platform) {
         using ujr::native_access::JNIUlPlatform;
 
@@ -348,4 +379,21 @@ namespace ujr {
 
         return j_platform;
     }
+#else
+    JniLocalRef<jobject> Platform::wrap(const JniEnv &env, int &platform) {
+        using ujr::native_access::JNIUlPlatform;
+
+        auto *collector = new ujr::PlatformCollector;
+
+        // Allocate the object and set the native handle and collector
+        auto j_platform = JNIUlPlatform::CLAZZ.alloc_object(env);
+        //JNIUlPlatform::HANDLE.set(env, j_platform, reinterpret_cast<jlong>(&platform));
+        JNIUlPlatform::NATIVE_COLLECTOR.set(env, j_platform, reinterpret_cast<jlong>(collector));
+
+        // Attach the collector to the platform
+        ujr::GCSupport::attach_collector(env, j_platform, collector);
+
+        return j_platform;
+    }
+#endif
 } // namespace ujr

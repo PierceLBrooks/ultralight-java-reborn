@@ -6,13 +6,16 @@ namespace ujr {
         : j_clipboard(std::move(j_clipboard)) {}
 
     void Clipboard::Clear() {
+#ifndef UJR_ONLY_WEBCORE
         using native_access::JNIUlClipboard;
 
         auto env = JniEnv::require_existing_from_thread();
         JNIUlClipboard::CLEAR.invoke(env, j_clipboard);
+#endif
     }
 
     ultralight::String Clipboard::ReadPlainText() {
+#ifndef UJR_ONLY_WEBCORE
         using native_access::JNIUlClipboard;
 
         auto env = JniEnv::require_existing_from_thread();
@@ -23,15 +26,20 @@ namespace ujr {
         }
 
         return j_result.to_utf16();
+#else
+        return "";
+#endif
     }
 
     void Clipboard::WritePlainText(const ultralight::String &text) {
+#ifndef UJR_ONLY_WEBCORE
         using native_access::JNIUlClipboard;
 
         auto env = JniEnv::require_existing_from_thread();
         auto j_text = JniLocalRef<jstring>::from_utf16(env, text.utf16());
 
         JNIUlClipboard::WRITE_PLAIN_TEXT.invoke(env, j_clipboard, j_text);
+#endif
     }
 
     const JniGlobalRef<jobject> &Clipboard::get_j_clipboard() const { return j_clipboard; }

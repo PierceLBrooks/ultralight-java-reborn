@@ -4,8 +4,10 @@
 #include "net_janrupf_ujr_platform_jni_impl_JNIUlSession_native_access.hpp"
 #include "net_janrupf_ujr_platform_jni_impl_JNIUlView_native_access.hpp"
 
+#ifndef UJR_ONLY_WEBCORE
 #include <Ultralight/Renderer.h>
 #include <Ultralight/View.h>
+#endif
 
 #include "ujr/Renderer.hpp"
 #include "ujr/Session.hpp"
@@ -16,6 +18,7 @@
 JNIEXPORT jobject JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlRenderer_nativeCreateSession(
     JNIEnv *env, jobject self, jboolean is_persistent, jstring name
 ) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlRenderer;
 
@@ -27,10 +30,14 @@ JNIEXPORT jobject JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlRenderer_n
         auto session = ujr::Session::wrap(env, ul_session);
         return session.leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT jobject JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlRenderer_nativeDefaultSession(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlRenderer;
 
@@ -40,11 +47,15 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlRenderer_nativeDefaultSession(JNIEnv
         auto session = ujr::Session::wrap(env, ul_session);
         return session.leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT jobject JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlRenderer_nativeCreateView(
     JNIEnv *env, jobject self, jint width, jint height, jobject config, jobject session
 ) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlRenderer;
         using ujr::native_access::UlViewConfig;
@@ -97,28 +108,36 @@ JNIEXPORT jobject JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlRenderer_n
 
         return j_view.leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlRenderer_nativeUpdate(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlRenderer;
 
         auto *renderer = reinterpret_cast<ultralight::Renderer *>(JNIUlRenderer::HANDLE.get(env, self));
         renderer->Update();
     });
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlRenderer_nativeRender(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlRenderer;
 
         auto *renderer = reinterpret_cast<ultralight::Renderer *>(JNIUlRenderer::HANDLE.get(env, self));
         renderer->Render();
     });
+#endif
 }
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlRenderer_nativeRenderOnly(JNIEnv *env, jobject self, jobjectArray views) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlRenderer;
         using ujr::native_access::JNIUlView;
@@ -137,31 +156,37 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlRenderer_nativeRenderOnly(JNIEnv *en
 
         renderer->RenderOnly(view_handles, view_count);
     });
+#endif
 }
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlRenderer_nativePurgeMemory(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlRenderer;
 
         auto *renderer = reinterpret_cast<ultralight::Renderer *>(JNIUlRenderer::HANDLE.get(env, self));
         renderer->PurgeMemory();
     });
+#endif
 }
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlRenderer_nativeLogMemoryUsage(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlRenderer;
 
         auto *renderer = reinterpret_cast<ultralight::Renderer *>(JNIUlRenderer::HANDLE.get(env, self));
         renderer->LogMemoryUsage();
     });
+#endif
 }
 
 JNIEXPORT jboolean JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlRenderer_nativeStartRemoteInspectorServer(
     JNIEnv *env, jobject self, jstring address, jint port
 ) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlRenderer;
 
@@ -171,11 +196,15 @@ JNIEXPORT jboolean JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlRenderer_
         auto *renderer = reinterpret_cast<ultralight::Renderer *>(JNIUlRenderer::HANDLE.get(env, self));
         return renderer->StartRemoteInspectorServer(address_str.data(), static_cast<uint16_t>(port));
     });
+#else
+    return JNI_FALSE;
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlRenderer_nativeSetGamepadDetails(
     JNIEnv *env, jobject self, jlong index, jstring id, jlong axis_count, jlong button_count
 ) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlRenderer;
 
@@ -190,10 +219,15 @@ JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlRenderer_nati
             static_cast<uint32_t>(button_count)
         );
     });
+#endif
 }
 
 namespace ujr {
+#ifndef UJR_ONLY_WEBCORE
     JniLocalRef<jobject> Renderer::wrap(const JniEnv &env, ultralight::RefPtr<ultralight::Renderer> renderer) {
+#else
+    JniLocalRef<jobject> Renderer::wrap(const JniEnv &env, ultralight::RefPtr<int> renderer) {
+#endif
         using ujr::native_access::JNIUlRenderer;
 
         auto *renderer_ref = renderer.LeakRef();
@@ -205,8 +239,16 @@ namespace ujr {
         return jni_renderer_ref;
     }
 
+#ifndef UJR_ONLY_WEBCORE
     RendererCollector::RendererCollector(ultralight::Renderer *renderer)
+#else
+    RendererCollector::RendererCollector(int *renderer)
+#endif
         : renderer(renderer) {}
 
+#ifndef UJR_ONLY_WEBCORE
     void RendererCollector::collect() { renderer->Release(); }
+#else
+    void RendererCollector::collect() {}
+#endif
 } // namespace ujr

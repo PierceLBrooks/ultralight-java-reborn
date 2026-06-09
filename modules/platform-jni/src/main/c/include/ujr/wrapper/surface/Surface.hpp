@@ -23,17 +23,17 @@ namespace ujr {
 
         [[nodiscard]] size_t size() const final;
 
-        void *LockPixels() final;
+        void *LockPixels();
 
-        void UnlockPixels() final;
+        void UnlockPixels();
 
-        void Resize(uint32_t width, uint32_t height) final;
+        void Resize(uint32_t width, uint32_t height);
 
-        void set_dirty_bounds(const ultralight::IntRect &bounds) final;
+        void set_dirty_bounds(const ultralight::IntRect &bounds);
 
         [[nodiscard]] ultralight::IntRect dirty_bounds() const final;
 
-        void ClearDirtyBounds() final;
+        void ClearDirtyBounds();
 
         /**
          * Retrieves the underlying java surface instance.

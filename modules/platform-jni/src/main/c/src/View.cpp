@@ -15,7 +15,9 @@
 #include "net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurface_native_access.hpp"
 #include "net_janrupf_ujr_platform_jni_wrapper_surface_JNIUlSurfaceNative_native_access.hpp"
 
+#ifndef UJR_ONLY_WEBCORE
 #include <Ultralight/View.h>
+#endif
 
 #include <stdexcept>
 
@@ -34,7 +36,11 @@ namespace ujr {
         JniInstanceMethod<decltype(SET_CLASS), "toArray", jobjectArray> SET_TO_ARRAY(SET_CLASS);
     } // namespace
 
+#ifndef UJR_ONLY_WEBCORE
     JniLocalRef<jobject> View::wrap(const JniEnv &env, ultralight::RefPtr<ultralight::View> view) {
+#else
+    JniLocalRef<jobject> View::wrap(const JniEnv &env, ultralight::RefPtr<int> view) {
+#endif
         using ujr::native_access::JNIUlView;
 
         auto *view_ref = view.LeakRef();
@@ -51,91 +57,126 @@ namespace ujr {
 } // namespace ujr
 
 JNIEXPORT jstring JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeUrl(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
         auto *view = reinterpret_cast<ultralight::View *>(JNIUlView::HANDLE.get(env, self));
         return ujr::JniLocalRef<jstring>::from_utf16(env, view->url().utf16()).leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT jstring JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeTitle(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
         auto *view = reinterpret_cast<ultralight::View *>(JNIUlView::HANDLE.get(env, self));
         return ujr::JniLocalRef<jstring>::from_utf16(env, view->title().utf16()).leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT jlong JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeWidth(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
         auto *view = reinterpret_cast<ultralight::View *>(JNIUlView::HANDLE.get(env, self));
         return view->width();
     });
+#else
+    return 0;
+#endif
 }
 
 JNIEXPORT jlong JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeHeight(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
         auto *view = reinterpret_cast<ultralight::View *>(JNIUlView::HANDLE.get(env, self));
         return view->height();
     });
+#else
+    return 0;
+#endif
 }
 
 JNIEXPORT jdouble JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeDeviceScale(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
         auto *view = reinterpret_cast<ultralight::View *>(JNIUlView::HANDLE.get(env, self));
         return view->device_scale();
     });
+#else
+    return 0.0;
+#endif
 }
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeSetDeviceScale(JNIEnv *env, jobject self, jdouble scale) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
         auto *view = reinterpret_cast<ultralight::View *>(JNIUlView::HANDLE.get(env, self));
         view->set_device_scale(scale);
     });
+#endif
 }
 
 JNIEXPORT jboolean JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeIsAccelerated(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
         auto *view = reinterpret_cast<ultralight::View *>(JNIUlView::HANDLE.get(env, self));
         return view->is_accelerated();
     });
+#else
+    return JNI_FALSE;
+#endif
 }
 
 JNIEXPORT jboolean JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeIsTransparent(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
         auto *view = reinterpret_cast<ultralight::View *>(JNIUlView::HANDLE.get(env, self));
         return view->is_transparent();
     });
+#else
+    return JNI_FALSE;
+#endif
 }
 
 JNIEXPORT jboolean JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeIsLoading(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
         auto *view = reinterpret_cast<ultralight::View *>(JNIUlView::HANDLE.get(env, self));
         return view->is_loading();
     });
+#else
+    return JNI_FALSE;
+#endif
 }
 
 JNIEXPORT jobject JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeSurface(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) -> jobject {
         using ujr::native_access::JNIUlView;
         using ujr::native_access::JNIUlSurface;
@@ -170,11 +211,15 @@ JNIEXPORT jobject JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativ
 
         return jni_surface_factory_ref.leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeLoadHTML(
     JNIEnv *env, jobject self, jstring html, jstring url, jboolean add_to_history
 ) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
@@ -185,10 +230,12 @@ JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeLo
 
         view->LoadHTML(j_html.to_utf16(), j_url.to_utf16(), add_to_history);
     });
+#endif
 }
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeLoadURL(JNIEnv *env, jobject self, jstring url) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
@@ -198,10 +245,12 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeLoadURL(JNIEnv *env, jobj
 
         view->LoadURL(j_url.to_utf16());
     });
+#endif
 }
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeResize(JNIEnv *env, jobject self, jlong width, jlong height) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
@@ -209,10 +258,12 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeResize(JNIEnv *env, jobje
 
         view->Resize(static_cast<uint32_t>(width), static_cast<uint32_t>(height));
     });
+#endif
 }
 
 JNIEXPORT jstring JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeEvaluateScript(JNIEnv *env, jobject self, jstring script) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) -> jstring {
         using ujr::native_access::JNIUlView;
         using ujr::native_access::JniJavaScriptException;
@@ -236,102 +287,132 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeEvaluateScript(JNIEnv *en
 
         return ujr::JniLocalRef<jstring>::from_utf16(env, result.utf16()).leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT jboolean JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeCanGoBack(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
         auto *view = reinterpret_cast<ultralight::View *>(JNIUlView::HANDLE.get(env, self));
         return view->CanGoBack();
     });
+#else
+    return JNI_FALSE;
+#endif
 }
 
 JNIEXPORT jboolean JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeCanGoForward(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
         auto *view = reinterpret_cast<ultralight::View *>(JNIUlView::HANDLE.get(env, self));
         return view->CanGoForward();
     });
+#else
+    return JNI_FALSE;
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeGoBack(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
         auto *view = reinterpret_cast<ultralight::View *>(JNIUlView::HANDLE.get(env, self));
         view->GoBack();
     });
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeGoForward(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
         auto *view = reinterpret_cast<ultralight::View *>(JNIUlView::HANDLE.get(env, self));
         view->GoForward();
     });
+#endif
 }
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeGoToHistoryOffset(JNIEnv *env, jobject self, jint offset) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
         auto *view = reinterpret_cast<ultralight::View *>(JNIUlView::HANDLE.get(env, self));
         view->GoToHistoryOffset(offset);
     });
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeReload(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
         auto *view = reinterpret_cast<ultralight::View *>(JNIUlView::HANDLE.get(env, self));
         view->Reload();
     });
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeStop(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
         auto *view = reinterpret_cast<ultralight::View *>(JNIUlView::HANDLE.get(env, self));
         view->Stop();
     });
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeFocus(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
         auto *view = reinterpret_cast<ultralight::View *>(JNIUlView::HANDLE.get(env, self));
         view->Focus();
     });
+#endif
 }
 
 JNIEXPORT void JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeUnfocus(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
         auto *view = reinterpret_cast<ultralight::View *>(JNIUlView::HANDLE.get(env, self));
         view->Unfocus();
     });
+#endif
 }
 
 JNIEXPORT jboolean JNICALL Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeHasFocus(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
         auto *view = reinterpret_cast<ultralight::View *>(JNIUlView::HANDLE.get(env, self));
         return view->HasFocus();
     });
+#else
+    return JNI_FALSE;
+#endif
 }
 
 JNIEXPORT jboolean JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeHasInputFocus(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
@@ -339,10 +420,14 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeHasInputFocus(JNIEnv *env
 
         return view->HasInputFocus();
     });
+#else
+    return JNI_FALSE;
+#endif
 }
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeFireKeyEvent(JNIEnv *env, jobject self, jobject event) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
         using ujr::native_access::UlKeyEvent;
@@ -410,10 +495,12 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeFireKeyEvent(JNIEnv *env,
 
         view->FireKeyEvent(ul_event);
     });
+#endif
 }
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeFireMouseEvent(JNIEnv *env, jobject self, jobject event) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
         using ujr::native_access::UlMouseEvent;
@@ -459,10 +546,12 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeFireMouseEvent(JNIEnv *en
 
         view->FireMouseEvent(ul_event);
     });
+#endif
 }
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeFireScrollEvent(JNIEnv *env, jobject self, jobject event) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
         using ujr::native_access::UlScrollEvent;
@@ -488,10 +577,12 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeFireScrollEvent(JNIEnv *e
 
         view->FireScrollEvent(ul_event);
     });
+#endif
 }
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeSetViewListener(JNIEnv *env, jobject self, jobject listener) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
@@ -514,10 +605,12 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeSetViewListener(JNIEnv *e
         view->set_view_listener(new_native_listener);
         collector->view_listener = new_native_listener;
     });
+#endif
 }
 
 JNIEXPORT jobject JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeViewListener(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) -> jobject {
         using ujr::native_access::JNIUlView;
         using ujr::native_access::JNIUlViewListenerNative;
@@ -541,10 +634,14 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeViewListener(JNIEnv *env,
 
         return jni_listener_ref.leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeSetLoadListener(JNIEnv *env, jobject self, jobject listener) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
@@ -567,10 +664,12 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeSetLoadListener(JNIEnv *e
         view->set_load_listener(new_native_listener);
         collector->load_listener = new_native_listener;
     });
+#endif
 }
 
 JNIEXPORT jobject JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeLoadListener(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) -> jobject {
         using ujr::native_access::JNIUlView;
         using ujr::native_access::JNIUlLoadListenerNative;
@@ -594,20 +693,26 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeLoadListener(JNIEnv *env,
 
         return jni_listener_ref.leak();
     });
+#else
+    return nullptr;
+#endif
 }
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeSetNeedsPaint(JNIEnv *env, jobject self, jboolean needs_paint) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
         auto *view = reinterpret_cast<ultralight::View *>(JNIUlView::HANDLE.get(env, self));
         view->set_needs_paint(needs_paint);
     });
+#endif
 }
 
 JNIEXPORT jboolean JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeNeedsPaint(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     return ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
@@ -615,10 +720,14 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeNeedsPaint(JNIEnv *env, j
 
         return view->needs_paint();
     });
+#else
+    return JNI_FALSE;
+#endif
 }
 
 JNIEXPORT void JNICALL
 Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeCreateLocalInspectorView(JNIEnv *env, jobject self) {
+#ifndef UJR_ONLY_WEBCORE
     ujr::jni_entry_guard(env, [&](auto env) {
         using ujr::native_access::JNIUlView;
 
@@ -626,10 +735,15 @@ Java_net_janrupf_ujr_platform_jni_impl_JNIUlView_nativeCreateLocalInspectorView(
 
         view->CreateLocalInspectorView();
     });
+#endif
 }
 
 namespace ujr {
+#ifndef UJR_ONLY_WEBCORE
     ViewCollector::ViewCollector(ultralight::View *view)
+#else
+    ViewCollector::ViewCollector(int *view)
+#endif
         : view(view)
         , view_listener(nullptr)
         , load_listener(nullptr) {}
@@ -637,6 +751,8 @@ namespace ujr {
     void ViewCollector::collect() {
         delete view_listener;
         delete load_listener;
+#ifndef UJR_ONLY_WEBCORE
         view->Release();
+#endif
     }
 } // namespace ujr

@@ -89,7 +89,11 @@ endif ()
 add_library(ultralight INTERFACE)
 target_include_directories(ultralight INTERFACE "${ULTRALIGHT_DIR}/include")
 target_link_directories(ultralight INTERFACE "${ULTRALIGHT_DIR}/${ULTRALIGHT_LINK_DIRECTORY}")
-target_link_libraries(ultralight INTERFACE AppCore Ultralight UltralightCore WebCore)
+if(DEFINED UJR_ONLY_WEBCORE AND "${UJR_ONLY_WEBCORE}" STREQUAL "ON")
+    target_link_libraries(ultralight INTERFACE UltralightCore WebCore)
+else ()
+    target_link_libraries(ultralight INTERFACE AppCore Ultralight UltralightCore WebCore)
+endif ()
 
 # Installation
 file(GLOB ULTRALIGHT_SHARED_LIBRARIES_INSTALL "${ULTRALIGHT_DIR}/bin/*")

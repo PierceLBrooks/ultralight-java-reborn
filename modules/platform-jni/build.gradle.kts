@@ -240,6 +240,8 @@ if (!importPrebuiltNatives) {
                 "-S", cmakeSource,
                 "-B", cmakeBinaryDir,
                 "-DUJR_JNI_HEADER_DIR=${tasks.getByName<JavaCompile>("compileJava").options.headerOutputDirectory.get()}",
+                "-DUJR_WARNINGS_AS_ERRORS=${rootProject.properties["ujr.warningsAsErrors"]?.toString()}",
+                "-DUJR_ONLY_WEBCORE=${rootProject.properties["ujr.onlyWebcore"]?.toString()}",
                 "-DJAVA_HOME=$javaHome",
                 "-DCMAKE_BUILD_TYPE=$nativeConfiguration",
             )

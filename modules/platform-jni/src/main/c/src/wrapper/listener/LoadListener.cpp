@@ -7,6 +7,7 @@ namespace ujr {
     LoadListener::LoadListener(JniGlobalRef<jobject> j_listener)
         : j_listener(std::move(j_listener)) {}
 
+#ifndef UJR_ONLY_WEBCORE
     void LoadListener::OnBeginLoading(
         ultralight::View *caller, uint64_t frame_id, bool is_main_frame, const ultralight::String &url
     ) {
@@ -107,6 +108,7 @@ namespace ujr {
         // Call the java instance
         native_access::JNIUlLoadListener::ON_UPDATE_HISTORY.invoke(env, j_listener, j_view);
     }
+#endif
 
     const JniGlobalRef<jobject> &LoadListener::get_j_listener() const { return j_listener; }
 } // namespace ujr

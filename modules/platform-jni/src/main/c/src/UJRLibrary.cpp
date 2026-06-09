@@ -1,4 +1,7 @@
 #include <jni.h>
+#ifdef UJR_ONLY_WEBCORE
+//#include <iostream>
+#endif
 
 #include "ujr/util/JniEnv.hpp"
 
@@ -9,6 +12,9 @@ extern "C" [[maybe_unused]] jint JNI_OnLoad(JavaVM *vm, void *) {
     // means that JniEnv::jvm will not be cleared. However, this is fine
     // since the library will be unloaded anyway and thus never have the
     // chance to create a JniEnv.
+#ifdef UJR_ONLY_WEBCORE
+    //std::cout << "Hello, world!" << std::endl;
+#endif
     return JNI_VERSION_1_8;
 }
 

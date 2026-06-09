@@ -8,6 +8,7 @@ namespace ujr {
         : j_filesystem(std::move(j_filesystem)) {}
 
     bool Filesystem::FileExists(const ultralight::String &file_path) {
+#ifndef UJR_ONLY_WEBCORE
         auto env = JniEnv::require_existing_from_thread();
 
         // Translate the file path
@@ -15,9 +16,13 @@ namespace ujr {
 
         // Call the Java instance
         return native_access::JNIUlFilesystem::FILE_EXISTS.invoke(env, j_filesystem, j_file_path);
+#else
+        return false;
+#endif
     }
 
     ultralight::String Filesystem::GetFileMimeType(const ultralight::String &file_path) {
+#ifndef UJR_ONLY_WEBCORE
         auto env = JniEnv::require_existing_from_thread();
 
         // Translate the file path
@@ -28,9 +33,13 @@ namespace ujr {
 
         // Translate the result
         return j_mime_type.to_utf16();
+#else
+        return "";
+#endif
     }
 
     ultralight::String Filesystem::GetFileCharset(const ultralight::String &file_path) {
+#ifndef UJR_ONLY_WEBCORE
         auto env = JniEnv::require_existing_from_thread();
 
         // Translate the file path
@@ -41,9 +50,13 @@ namespace ujr {
 
         // Translate the result
         return j_charset.to_utf16();
+#else
+        return "";
+#endif
     }
 
     ultralight::RefPtr<ultralight::Buffer> Filesystem::OpenFile(const ultralight::String &file_path) {
+#ifndef UJR_ONLY_WEBCORE
         auto env = JniEnv::require_existing_from_thread();
 
         // Translate the file path
@@ -64,6 +77,9 @@ namespace ujr {
                 throw;
             }
         }
+#else
+        return nullptr;
+#endif
     }
 
     const JniGlobalRef<jobject> &Filesystem::get_j_filesystem() const { return j_filesystem; }

@@ -1,6 +1,8 @@
 #pragma once
 
+#ifndef UJR_ONLY_WEBCORE
 #include <Ultralight/View.h>
+#endif
 
 #include "ujr/support/GC.hpp"
 
@@ -9,19 +11,19 @@ namespace ujr {
     public:
         explicit View() = delete;
 
-        static JniLocalRef<jobject> wrap(const JniEnv &env, ultralight::RefPtr<ultralight::View> view);
+        static JniLocalRef<jobject> wrap(const JniEnv &env, ultralight::RefPtr<int> view);
     };
 
     class ViewCollector : public NativeCollector {
     private:
-        ultralight::View *view;
+        int *view;
 
     public:
-        ultralight::ViewListener *view_listener;
-        ultralight::LoadListener *load_listener;
+        int *view_listener;
+        int *load_listener;
 
-        explicit ViewCollector(ultralight::View *view);
+        explicit ViewCollector(int *view);
 
-        void collect() final;
+        void collect();
     };
 } // namespace ujr

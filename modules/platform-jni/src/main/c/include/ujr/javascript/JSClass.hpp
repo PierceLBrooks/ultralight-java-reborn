@@ -20,7 +20,7 @@ namespace ujr {
     public:
         explicit JSClassCollector(JSClassRef clazz);
 
-        void collect() final;
+        void collect();
     };
 
 } // namespace ujr
