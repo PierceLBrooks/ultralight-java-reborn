@@ -53,8 +53,8 @@ public class ViewListener implements UltralightViewListener {
         // console.log() in JavaScript. Other message sources are browser subsystems - effectively
         // all debug messages produced by the web content related to the view will end up here.
 
-        LOGGER.info("View console message: {} {} {}:{}:{}",
-                source, level, sourceId, lineNumber, columnNumber);
+        LOGGER.info("View console message: {} {} {}:{}:{}\n{}",
+                source, level, sourceId, lineNumber, columnNumber, message);
     }
 
     @Override

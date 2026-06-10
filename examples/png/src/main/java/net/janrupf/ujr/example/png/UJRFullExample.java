@@ -89,7 +89,7 @@ public class UJRFullExample {
         view.setLoadListener(new LoadListener());
 
         // Load an URL into the view and spin the event loop until the view is loaded
-        view.loadURL("https://www.google.com/");
+        view.loadURL("https://www.gstatic.com/cast/sdk/default_receiver/1.0/app.html?skin");
 
         // Now we can spin the event loop.
         while (view.isLoading()) {
@@ -108,6 +108,11 @@ public class UJRFullExample {
         UltralightBitmapSurface surface = (UltralightBitmapSurface) view.surface();
         UltralightBitmap bitmap = surface.bitmap();
         bitmap.writePNG("test.png");
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         // After we are done using the library, we should tell it to perform cleanup
         ujr.cleanup();

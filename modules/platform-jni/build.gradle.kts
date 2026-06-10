@@ -135,11 +135,14 @@ if (!importPrebuiltNatives) {
             "--parallel", Runtime.getRuntime().availableProcessors().toString(),
             "--config", nativeConfiguration,
         )
+
+        doFirst {
+            logger.debug("ujr.onlyWebcore = \"${rootProject.properties["ujr.onlyWebcore"]?.toString()}\"")
+        }
     }
 
     val installNativeTask = tasks.register<Exec>("installNative") {
         dependsOn(buildNativeTask)
-
         executable = cmake.toString()
         args = listOf(
             "--install", cmakeBinaryDir,
